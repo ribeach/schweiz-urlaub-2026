@@ -1,0 +1,10 @@
+# Secrets — niemals committen
+.env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+
+# Node (falls später ein Build-Schritt dazukommt)
+node_modules/
