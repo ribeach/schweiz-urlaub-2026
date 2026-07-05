@@ -1,0 +1,483 @@
+/* =============================================================================
+   style.css — Unser Bergabenteuer 2026
+   Mobile-first, hoher Kontrast (WCAG AA), Light + Dark Mode, Print für Tagesplan.
+   Keine externen Requests. Deko über CSS/Inline-SVG. Systemschriften.
+   ============================================================================= */
+
+/* ---------- Design-Tokens ---------- */
+:root {
+  color-scheme: light dark;
+
+  /* Bergwelt-Palette – kräftig & kontraststark */
+  --gruen:    #218a4e;   /* Wiese  */
+  --gruen-d:  #17643a;
+  --tuerkis:  #0a94a3;   /* See    */
+  --tuerkis-d:#066d78;
+  --himmel:   #1f74d6;   /* Himmel */
+  --himmel-d: #14539c;
+  --sonne:    #f2a900;   /* Sonne  */
+  --sonne-d:  #b97d00;
+  --bergrot:  #d64524;   /* Akzent */
+  --bergrot-d:#a5321a;
+
+  /* Flächen & Text (warm getönt, entsättigt) */
+  --bg:        #fbf9f3;
+  --bg-2:      #f2eee2;
+  --surface:   #ffffff;
+  --surface-2: #f6f3ea;
+  --ink:       #1c2a30;   /* Haupttext, Kontrast > 12:1 auf --bg */
+  --ink-2:     #46555c;   /* Sekundärtext, > 5:1 */
+  --line:      #e2ddce;
+  --line-2:    #cfc9b7;
+
+  /* Eignungs-Ampel */
+  --ampel-ideal:  #1b7a43;
+  --ampel-gut:    #1f74d6;
+  --ampel-beding: #b06a00;
+  --ampel-ungeei: #c0361a;
+
+  /* Struktur */
+  --radius:   18px;
+  --radius-s: 12px;
+  --radius-l: 26px;
+  --shadow:   0 2px 4px rgba(28,42,48,.05), 0 10px 26px -10px rgba(28,42,48,.18);
+  --shadow-s: 0 1px 2px rgba(28,42,48,.06), 0 4px 12px -6px rgba(28,42,48,.14);
+  --tap: 48px;                 /* Mindest-Touch-Ziel */
+  --maxw: 960px;
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gruen:    #4cc47e;  --gruen-d:  #2e9c5b;
+    --tuerkis:  #34c2d0;  --tuerkis-d:#1c9aa8;
+    --himmel:   #6aa9f0;  --himmel-d: #3d84d8;
+    --sonne:    #ffc23d;  --sonne-d:  #d99a00;
+    --bergrot:  #ff7554;  --bergrot-d:#e0512f;
+
+    --bg:        #0f1b21;
+    --bg-2:      #142831;
+    --surface:   #16262e;
+    --surface-2: #1c313a;
+    --ink:       #e9f1f2;
+    --ink-2:     #a9bcc2;
+    --line:      #2a3f48;
+    --line-2:    #365059;
+
+    --ampel-ideal:  #4cc47e;
+    --ampel-gut:    #6aa9f0;
+    --ampel-beding: #f0b64a;
+    --ampel-ungeei: #ff7a5c;
+
+    --shadow:   0 2px 4px rgba(0,0,0,.3), 0 12px 30px -12px rgba(0,0,0,.6);
+    --shadow-s: 0 1px 2px rgba(0,0,0,.3), 0 6px 16px -8px rgba(0,0,0,.5);
+  }
+}
+
+/* ---------- Reset & Grundlagen ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.06rem, 0.98rem + 0.5vw, 1.22rem);  /* ~18–20 px+ */
+  line-height: 1.58;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.12; text-wrap: balance; margin: 0 0 .5em; }
+h1 { font-size: clamp(2.1rem, 1.5rem + 3.4vw, 3.4rem); letter-spacing: -.01em; }
+h2 { font-size: clamp(1.6rem, 1.25rem + 1.8vw, 2.3rem); }
+h3 { font-size: clamp(1.25rem, 1.08rem + 0.9vw, 1.55rem); }
+p  { margin: 0 0 .8em; text-wrap: pretty; }
+:where(p, li) { max-width: 68ch; }
+
+a { color: var(--himmel-d); text-underline-offset: 3px; }
+@media (prefers-color-scheme: dark) { a { color: var(--himmel); } }
+a:focus-visible, button:focus-visible, summary:focus-visible, .chip:focus-visible {
+  outline: 3px solid var(--sonne); outline-offset: 2px; border-radius: 6px;
+}
+
+img, svg { max-width: 100%; display: block; }
+
+.wrap { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
+.section { padding-block: clamp(2rem, 1.4rem + 2.5vw, 3.4rem); }
+.section > .wrap > h2 { display: flex; align-items: baseline; gap: .5rem; }
+.eyebrow { font: 600 .82rem/1 var(--font-body); letter-spacing: .11em; text-transform: uppercase; color: var(--tuerkis-d); margin: 0 0 .5rem; }
+@media (prefers-color-scheme: dark) { .eyebrow { color: var(--tuerkis); } }
+
+/* Skip-Link */
+.skip {
+  position: absolute; left: 8px; top: -60px; z-index: 200;
+  background: var(--ink); color: var(--bg); padding: .7rem 1.1rem; border-radius: 10px;
+  transition: top .15s;
+}
+.skip:focus { top: calc(8px + env(safe-area-inset-top)); }
+
+/* ---------- Header / Hero ---------- */
+.hero {
+  position: relative; overflow: hidden; color: #fff;
+  background: linear-gradient(180deg, #2ea3e6 0%, #6cc7ea 46%, #a7e0c2 100%);
+  padding-top: calc(env(safe-area-inset-top) + 1rem);
+}
+.hero__inner { position: relative; z-index: 2; padding-block: clamp(1.5rem, 1rem + 5vw, 3.4rem) clamp(7rem, 5rem + 12vw, 11rem); text-align: center; }
+.hero h1 { color: #fff; text-shadow: 0 2px 18px rgba(20,60,90,.28); margin-bottom: .2em; }
+.hero__sub { font-size: clamp(1.05rem, 0.95rem + 0.7vw, 1.35rem); font-weight: 600; color: #f4fbff; opacity: .96; margin: 0; }
+.hero__scene { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; width: 100%; height: auto; }
+.hero__sun { position: absolute; top: 8%; right: 12%; width: clamp(52px, 12vw, 96px); height: auto; z-index: 1; filter: drop-shadow(0 0 26px rgba(255,210,90,.7)); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: var(--tap); padding: .7rem 1.3rem;
+  font: 600 1rem/1 var(--font-display); text-decoration: none; cursor: pointer;
+  border: 2px solid transparent; border-radius: 999px;
+  background: var(--ink); color: var(--bg);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s;
+  box-shadow: var(--shadow-s);
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--bergrot); color: #fff; }
+.btn--primary:hover { background: var(--bergrot-d); }
+.btn--ghost { background: var(--surface); color: var(--ink); border-color: var(--line-2); box-shadow: none; }
+.btn--sun { background: var(--sonne); color: #3a2600; }
+.btn--sun:hover { background: var(--sonne-d); }
+.btn--sm { min-height: 44px; padding: .55rem 1rem; font-size: .95rem; }
+
+/* ---------- Chips (Reise-Steckbrief) ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: .55rem; justify-content: center; }
+.chip-info {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .5rem .9rem; border-radius: 999px;
+  background: var(--surface); border: 1.5px solid var(--line-2);
+  font-size: .96rem; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-s);
+}
+.chip-info .ic { font-size: 1.1em; }
+
+/* ---------- Countdown-Karte ---------- */
+.countdown {
+  position: relative; z-index: 5; margin-top: clamp(-6rem, -4rem - 8vw, -4.5rem);
+  background: var(--surface); border-radius: var(--radius-l);
+  box-shadow: var(--shadow); border: 1px solid var(--line);
+  padding: clamp(1.4rem, 1rem + 3vw, 2.4rem); text-align: center;
+}
+.countdown__num { font-family: var(--font-display); font-weight: 800; line-height: .9;
+  font-size: clamp(3.2rem, 2rem + 8vw, 6rem); color: var(--bergrot); letter-spacing: -.02em; }
+.countdown__label { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 1rem + 1.4vw, 1.8rem); margin: .1em 0 0; }
+.countdown__hint { color: var(--ink-2); margin: .5rem auto 0; }
+.countdown--soon .countdown__emoji { font-size: clamp(2.6rem, 2rem + 4vw, 4rem); }
+.countdown--soon .countdown__label { color: var(--tuerkis-d); }
+@media (prefers-color-scheme: dark) { .countdown--soon .countdown__label { color: var(--tuerkis); } }
+
+/* ---------- Fortschritt / Stempel gesammelt ---------- */
+.progress {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  background: linear-gradient(120deg, var(--surface-2), var(--surface));
+  border: 1.5px solid var(--line); border-radius: var(--radius);
+  padding: 1rem 1.2rem; box-shadow: var(--shadow-s);
+}
+.progress__text { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+.progress__text b { color: var(--bergrot); }
+.progress__bar { flex: 1 1 200px; height: 16px; border-radius: 999px; background: var(--bg-2); overflow: hidden; border: 1px solid var(--line-2); }
+.progress__fill { height: 100%; width: 0; border-radius: 999px;
+  background: linear-gradient(90deg, var(--sonne), var(--gruen)); transition: width .5s ease; }
+
+/* ---------- Karten-Raster ---------- */
+.grid { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .grid--2 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 860px) { .grid--3 { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow-s); overflow: hidden; display: flex; flex-direction: column;
+}
+
+/* ---------- Destinationskarten (Startseite) ---------- */
+.dest {
+  position: relative; padding: 0; transition: transform .15s ease, box-shadow .15s ease;
+}
+.dest:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.dest__banner { position: relative; padding: 1.4rem 1.3rem 1.1rem; color: #fff;
+  background: linear-gradient(135deg, var(--gruen), var(--tuerkis)); }
+.dest__emoji { font-size: 2.6rem; line-height: 1; }
+.dest__name { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; margin: .3rem 0 0; color: #fff; }
+.dest__region { font-weight: 600; opacity: .92; font-size: .95rem; }
+.dest__body { padding: 1.1rem 1.3rem 1.3rem; display: flex; flex-direction: column; gap: .9rem; flex: 1; }
+.dest__body p { color: var(--ink-2); margin: 0; }
+.dest__hl { display: flex; gap: .4rem; font-size: 1.5rem; }
+.badge {
+  display: inline-flex; align-items: center; gap: .35rem; align-self: flex-start;
+  padding: .3rem .7rem; border-radius: 999px; font-size: .8rem; font-weight: 700;
+  background: rgba(255,255,255,.22); color: #fff; border: 1px solid rgba(255,255,255,.4);
+}
+.dest__footer { margin-top: auto; }
+
+/* Platzhalterkarte "Bald mehr!" */
+.dest--soon { background: transparent; border: 2.5px dashed var(--line-2); box-shadow: none;
+  align-items: center; justify-content: center; text-align: center; padding: 2rem 1.2rem; min-height: 210px; gap: .4rem; }
+.dest--soon:hover { transform: none; box-shadow: none; }
+.dest--soon .q { font-size: 3rem; color: var(--line-2); font-family: var(--font-display); font-weight: 800; }
+.dest--soon .dest__name { color: var(--ink); font-size: 1.35rem; }
+.dest--soon p { color: var(--ink-2); }
+
+/* ---------- Anreise-Block ---------- */
+.anreise { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-s); overflow: hidden; }
+.anreise__route { padding: 1.1rem 1.3rem; background: var(--surface-2); border-bottom: 1px solid var(--line);
+  font-family: var(--font-display); font-weight: 700; display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.anreise__stopp { padding: 1.3rem; }
+.anreise__stopp h3 { display: flex; align-items: center; gap: .5rem; }
+.tip-flag { display: inline-block; font-size: .74rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+  color: #fff; background: var(--sonne-d); padding: .22rem .55rem; border-radius: 7px; }
+
+/* ---------- Sticky Sprungnavigation ---------- */
+.subnav {
+  position: sticky; top: 0; z-index: 60;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: .5rem 0; padding-top: calc(.5rem + env(safe-area-inset-top));
+}
+.subnav__scroll { display: flex; gap: .45rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-inline: 1rem; }
+.subnav__scroll::-webkit-scrollbar { display: none; }
+.subnav a {
+  flex: 0 0 auto; min-height: 44px; display: inline-flex; align-items: center; gap: .35rem;
+  padding: .5rem .85rem; border-radius: 999px; text-decoration: none; white-space: nowrap;
+  font: 600 .92rem/1 var(--font-display); color: var(--ink);
+  background: var(--surface-2); border: 1.5px solid var(--line);
+}
+.subnav a:hover { border-color: var(--tuerkis); }
+:target { scroll-margin-top: 5.2rem; }
+section[id] { scroll-margin-top: 5.2rem; }
+
+/* ---------- Steckbrief (Destination) ---------- */
+.steckbrief { display: grid; gap: 1rem; }
+.steckbrief .facts { display: flex; flex-wrap: wrap; gap: .55rem; }
+
+/* Kostenwarnung */
+.warnbox {
+  border-radius: var(--radius); padding: 1.1rem 1.2rem; margin: 1rem 0;
+  background: color-mix(in srgb, var(--sonne) 16%, var(--surface));
+  border: 2px solid var(--sonne-d); box-shadow: var(--shadow-s);
+}
+.warnbox h3 { display: flex; align-items: center; gap: .5rem; margin-bottom: .4rem; color: var(--ink); }
+.warnbox p { margin: 0; color: var(--ink); }
+.warnbox--danger { background: color-mix(in srgb, var(--bergrot) 12%, var(--surface)); border-color: var(--bergrot); }
+
+/* ---------- Filterleiste ---------- */
+.filterbar { display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.3rem; }
+.filterbar__row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.filterbar__legend { font: 700 .85rem/1 var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); align-self: center; margin-right: .2rem; }
+.chip {
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  min-height: var(--tap); display: inline-flex; align-items: center; gap: .45rem;
+  padding: .55rem 1rem; border-radius: 999px;
+  font: 600 1rem/1 var(--font-display); color: var(--ink);
+  background: var(--surface); border: 2px solid var(--line-2);
+  transition: background .12s, border-color .12s, color .12s, transform .1s;
+}
+.chip:hover { border-color: var(--tuerkis); }
+.chip[aria-pressed="true"] { background: var(--tuerkis); border-color: var(--tuerkis-d); color: #fff; }
+.chip[aria-pressed="true"] .chip__check { opacity: 1; }
+.chip__check { opacity: 0; font-weight: 900; }
+.chip--reset[aria-pressed] { background: var(--surface); }
+.chip--reset { border-style: dashed; }
+.filter-count { font-weight: 600; color: var(--ink-2); font-size: .95rem; }
+
+/* ---------- Aktivitätskarte ---------- */
+.akt { position: relative; }
+.akt__head { display: flex; gap: .8rem; align-items: flex-start; padding: 1.1rem 1.2rem .4rem; }
+.akt__icon { font-size: 2.2rem; line-height: 1; flex: 0 0 auto; filter: drop-shadow(0 2px 3px rgba(0,0,0,.12)); }
+.akt__titlewrap { flex: 1; min-width: 0; }
+.akt__name { font-family: var(--font-display); font-weight: 800; font-size: 1.28rem; margin: 0; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.akt__star { color: var(--sonne-d); font-size: .95rem; }
+.akt__meta { display: flex; flex-wrap: wrap; gap: .35rem .7rem; font-size: .88rem; color: var(--ink-2); margin-top: .25rem; font-weight: 600; }
+.akt__kind {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.16rem; line-height: 1.4;
+  padding: .3rem 1.2rem 0; color: var(--ink);
+}
+.akt__body { padding: .5rem 1.2rem 1.1rem; display: flex; flex-direction: column; gap: .8rem; flex: 1; }
+
+/* Kategorie-Label */
+.cat { display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .5rem; border-radius: 7px;
+  font-size: .78rem; font-weight: 700; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+.gratis-tag { color: var(--gruen-d); background: color-mix(in srgb, var(--gruen) 16%, var(--surface)); border-color: var(--gruen); }
+@media (prefers-color-scheme: dark){ .gratis-tag { color: var(--gruen); } }
+
+/* Eignungs-Ampel (Text + Symbol, nie Farbe allein) */
+.ampeln { display: flex; flex-wrap: wrap; gap: .5rem; }
+.ampel {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .4rem .7rem; border-radius: 10px; font-size: .92rem; font-weight: 700;
+  border: 2px solid; background: var(--surface);
+}
+.ampel__who { font-weight: 800; }
+.ampel__sym { font-weight: 900; font-family: var(--font-display); }
+.ampel--ideal   { color: var(--ampel-ideal);  border-color: var(--ampel-ideal);  background: color-mix(in srgb, var(--ampel-ideal) 12%, var(--surface)); }
+.ampel--gut     { color: var(--ampel-gut);    border-color: var(--ampel-gut);    background: color-mix(in srgb, var(--ampel-gut) 12%, var(--surface)); }
+.ampel--bedingt { color: var(--ampel-beding); border-color: var(--ampel-beding); background: color-mix(in srgb, var(--ampel-beding) 14%, var(--surface)); }
+.ampel--ungeeignet { color: var(--ampel-ungeei); border-color: var(--ampel-ungeei); background: color-mix(in srgb, var(--ampel-ungeei) 12%, var(--surface)); }
+.ampel small { font-weight: 600; opacity: .95; }
+.ampel__hint { font-size: .82rem; font-weight: 600; color: var(--ink-2); margin: .1rem 0 0; }
+
+/* Altersregel-Warnhinweis auf der Karte */
+.altersregel {
+  display: flex; gap: .55rem; align-items: flex-start;
+  background: color-mix(in srgb, var(--bergrot) 12%, var(--surface));
+  border: 2px solid var(--bergrot); border-radius: var(--radius-s);
+  padding: .7rem .85rem; font-size: .95rem; font-weight: 600; color: var(--ink);
+}
+.altersregel .ic { font-size: 1.25rem; flex: 0 0 auto; }
+.altersregel b { color: var(--bergrot-d); }
+@media (prefers-color-scheme: dark){ .altersregel b { color: var(--bergrot); } }
+
+/* Details "Für die Erwachsenen" */
+.details {
+  border: 1.5px solid var(--line-2); border-radius: var(--radius-s); background: var(--surface-2); overflow: hidden;
+}
+.details > summary {
+  list-style: none; cursor: pointer; min-height: var(--tap);
+  display: flex; align-items: center; gap: .5rem; padding: .7rem 1rem;
+  font-family: var(--font-display); font-weight: 700; color: var(--ink);
+}
+.details > summary::-webkit-details-marker { display: none; }
+.details > summary::after { content: "▾"; margin-left: auto; transition: transform .2s; color: var(--ink-2); }
+.details[open] > summary::after { transform: rotate(180deg); }
+.details__inner { padding: 0 1rem 1rem; display: flex; flex-direction: column; gap: .7rem; }
+.details__inner p { margin: 0; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: .3rem .8rem; font-size: .95rem; }
+.kv dt { font-weight: 700; color: var(--ink-2); }
+.kv dd { margin: 0; }
+.kv .price b { color: var(--bergrot-d); }
+@media (prefers-color-scheme: dark){ .kv .price b { color: var(--sonne); } }
+.linkrow { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .2rem; }
+
+/* Stempel-Button */
+.stamp-btn {
+  appearance: none; cursor: pointer; position: relative;
+  min-height: var(--tap); width: 100%; margin-top: auto;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .7rem 1rem; border-radius: 999px;
+  font: 700 1.05rem/1 var(--font-display);
+  background: var(--sonne); color: #3a2600; border: 2px solid var(--sonne-d);
+  transition: transform .12s, background .15s, color .15s;
+}
+.stamp-btn:hover { transform: translateY(-1px); }
+.stamp-btn[aria-pressed="true"] { background: var(--gruen); color: #fff; border-color: var(--gruen-d); }
+.stamp-btn__stamp { font-size: 1.3rem; }
+.akt[data-stamped="true"]::before {
+  content: "✔"; position: absolute; top: .7rem; right: .7rem; z-index: 3;
+  width: 46px; height: 46px; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 900; font-size: 1.5rem; color: #fff;
+  background: var(--gruen); border-radius: 50%; border: 3px dashed rgba(255,255,255,.85);
+  box-shadow: var(--shadow-s); transform: rotate(-12deg);
+  animation: stampIn .32s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes stampIn { 0% { transform: rotate(-12deg) scale(2.4); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .akt[data-stamped="true"]::before { animation: none; } }
+
+/* ---------- Tagesplan ---------- */
+.plan__head { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+.toggle { display: inline-flex; background: var(--surface-2); border: 2px solid var(--line-2); border-radius: 999px; padding: 4px; gap: 4px; }
+.toggle button {
+  appearance: none; cursor: pointer; min-height: 44px; padding: .5rem 1.1rem; border: none; border-radius: 999px;
+  font: 700 1rem/1 var(--font-display); color: var(--ink); background: transparent;
+}
+.toggle button[aria-pressed="true"] { background: var(--himmel); color: #fff; box-shadow: var(--shadow-s); }
+.days { display: grid; gap: 1rem; }
+@media (min-width: 780px) { .days { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-s); overflow: hidden; }
+.day__head { padding: .9rem 1.1rem; color: #fff; background: linear-gradient(135deg, var(--himmel), var(--tuerkis)); }
+.day__tag { font: 800 .8rem/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.day__titel { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; margin: .2rem 0 0; }
+.day__blocks { padding: .9rem 1.1rem; display: flex; flex-direction: column; gap: .8rem; }
+.block { display: grid; grid-template-columns: auto 1fr; gap: .2rem .8rem; }
+.block__zeit { font: 700 .82rem/1.3 var(--font-body); letter-spacing: .03em; text-transform: uppercase; color: var(--tuerkis-d); padding-top: .15rem; }
+@media (prefers-color-scheme: dark){ .block__zeit { color: var(--tuerkis); } }
+.block__text { grid-column: 1 / -1; margin: 0; }
+@media (min-width: 500px) { .block__text { grid-column: 2; } }
+
+/* ---------- Hotels ---------- */
+.hotel { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .7rem; }
+.hotel__top { display: flex; justify-content: space-between; gap: .6rem; align-items: baseline; flex-wrap: wrap; }
+.hotel__name { font-family: var(--font-display); font-weight: 800; font-size: 1.22rem; margin: 0; }
+.hotel__stars { color: var(--sonne-d); letter-spacing: .05em; font-size: 1rem; }
+@media (prefers-color-scheme: dark){ .hotel__stars { color: var(--sonne); } }
+.hotel__tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.htag { font-size: .82rem; font-weight: 700; padding: .25rem .6rem; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-2); }
+.htag--yes { color: var(--gruen-d); border-color: var(--gruen); background: color-mix(in srgb, var(--gruen) 12%, var(--surface)); }
+.htag--no  { color: var(--ink-2); }
+@media (prefers-color-scheme: dark){ .htag--yes { color: var(--gruen); } }
+.hotel__price { font-family: var(--font-display); font-weight: 800; color: var(--bergrot-d); }
+@media (prefers-color-scheme: dark){ .hotel__price { color: var(--sonne); } }
+.emphbox { background: color-mix(in srgb, var(--gruen) 10%, var(--surface)); border: 2px solid var(--gruen); border-radius: var(--radius); padding: 1.1rem 1.2rem; box-shadow: var(--shadow-s); }
+.emphbox h3 { display: flex; align-items: center; gap: .5rem; }
+
+/* ---------- Kostentabelle ---------- */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius); border: 1px solid var(--line); }
+table.kosten { width: 100%; border-collapse: collapse; background: var(--surface); min-width: 520px; }
+table.kosten caption { text-align: left; padding: .6rem .2rem; color: var(--ink-2); font-weight: 600; caption-side: top; }
+table.kosten th, table.kosten td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.kosten thead th { background: var(--surface-2); font-family: var(--font-display); font-size: .95rem; position: sticky; top: 0; }
+table.kosten td.num { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+table.kosten tr:last-child td { border-bottom: none; }
+table.kosten .hint { color: var(--ink-2); font-size: .88rem; font-weight: 500; }
+
+/* ---------- Events ---------- */
+.events { display: grid; gap: .8rem; }
+.event { display: flex; gap: .9rem; align-items: center; padding: .9rem 1.1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-s); }
+.event__date { font-family: var(--font-display); font-weight: 800; color: var(--himmel-d); flex: 0 0 auto; }
+@media (prefers-color-scheme: dark){ .event__date { color: var(--himmel); } }
+.event__name { font-weight: 700; flex: 1; }
+.art { font-size: .74rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: .25rem .6rem; border-radius: 7px; flex: 0 0 auto; }
+.art--programm { color: #fff; background: var(--gruen); }
+.art--kulisse { color: var(--ink); background: var(--surface-2); border: 1px solid var(--line-2); }
+
+/* ---------- Kleingedrucktes / Footer ---------- */
+.fineprint { font-size: .9rem; color: var(--ink-2); }
+.fineprint p { max-width: 80ch; }
+footer.site {
+  margin-top: 2rem; padding: 2rem 0 calc(2rem + env(safe-area-inset-bottom));
+  background: var(--surface-2); border-top: 1px solid var(--line); text-align: center; color: var(--ink-2);
+}
+footer.site a { font-weight: 600; }
+
+.backlink { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; font-weight: 700; text-decoration: none; }
+
+/* JS-abhängige Elemente ausblenden, wenn kein JS (progressive enhancement) */
+.js-only { display: none; }
+.has-js .js-only { display: initial; }
+.has-js .js-only.flex { display: flex; }
+.no-js-note { background: var(--surface-2); border: 1px dashed var(--line-2); border-radius: var(--radius-s); padding: .8rem 1rem; color: var(--ink-2); font-size: .92rem; }
+.has-js .no-js-note { display: none; }
+
+/* ---------- Druck: nur Tagesplan, S/W ---------- */
+@media print {
+  :root { --ink: #000; --ink-2: #333; --surface: #fff; --bg: #fff; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  .hero, .subnav, .site-header, footer.site, .filterbar, .no-js-note,
+  .stamp-btn, .progress, .btn, .toggle, .backlink, .skip, .details > summary::after { display: none !important; }
+  /* Beim Drucken alle Sektionen ausser dem Tagesplan verbergen */
+  main > section:not(#tagesplan) { display: none !important; }
+  #tagesplan { padding: 0 !important; }
+  #tagesplan .plan__head { display: none !important; }
+  .days { display: block !important; }
+  .day { break-inside: avoid; page-break-inside: avoid; border: 1px solid #999; box-shadow: none; margin-bottom: 12pt; }
+  .day__head { background: #fff !important; color: #000 !important; border-bottom: 2px solid #000; }
+  .day__blocks { display: block; }
+  .block { margin-bottom: 6pt; }
+  .print-only { display: block !important; }
+  #tagesplan::before { content: "Tagesplan · Unser Bergabenteuer 2026 · Lenzerheide"; display: block; font-size: 16pt; font-weight: bold; margin-bottom: 10pt; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #333; word-break: break-all; }
+}
+.print-only { display: none; }

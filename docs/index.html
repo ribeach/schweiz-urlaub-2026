@@ -2,37 +2,94 @@
 <html lang="de-CH">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Zoom bleibt immer möglich: kein user-scalable=no / maximum-scale. viewport-fit für Safe-Areas. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2ea3e6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1b21" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Unser Bergabenteuer 2026 – Familien-Reiseplanung für Graubünden im August 2026. Ausflugsziele, Tagespläne, Hotels und Kosten für Kind und Grosseltern.">
   <meta name="robots" content="noindex">
-  <title>Schweiz-Urlaub 2026</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body {
-      margin: 0;
-      min-height: 100dvh;
-      display: grid;
-      place-items: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(160deg, #eef6ff, #dcefe4);
-      color: #1c2b33;
-      text-align: center;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-    @media (prefers-color-scheme: dark) {
-      body { background: linear-gradient(160deg, #10222e, #14301f); color: #e8f1f5; }
-    }
-    h1 { font-size: clamp(1.6rem, 5vw, 2.6rem); margin: 0 0 .5rem; }
-    p  { font-size: clamp(1rem, 3vw, 1.2rem); margin: .4rem 0; }
-    .peak { font-size: 3rem; }
-  </style>
+  <title>Unser Bergabenteuer · Schweiz-Urlaub 2026</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-  <main>
-    <div class="peak">🏔️🚵🛷</div>
-    <h1>Schweiz-Urlaub 2026</h1>
-    <p>Unser Bergabenteuer in Graubünden — August 2026.</p>
-    <p>Die Planungsseite entsteht gerade. Bald gibt's hier Ausflugsziele, Tagespläne und mehr!</p>
+<body data-page="index">
+  <a class="skip" href="#hauptinhalt">Zum Inhalt springen</a>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" role="banner">
+    <!-- Stilisierte Sonne -->
+    <svg class="hero__sun" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <circle cx="50" cy="50" r="26" fill="#ffe27a"/>
+      <circle cx="50" cy="50" r="18" fill="#ffd23d"/>
+    </svg>
+    <div class="hero__inner wrap">
+      <h1>Unser Bergabenteuer</h1>
+      <p class="hero__sub">Schweiz-Urlaub 2026 · Graubünden</p>
+    </div>
+    <!-- Stilisierte Bergsilhouette (einfache Polygone) -->
+    <svg class="hero__scene" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <polygon points="0,220 180,70 320,150 420,60 560,160 620,220" fill="#5aa06a"/>
+      <polygon points="500,220 700,40 760,110 860,20 1000,140 1080,60 1200,150 1200,220" fill="#3f8557"/>
+      <polygon points="700,40 760,110 730,110 720,90 700,110 690,95" fill="#f4fbff" opacity=".9"/>
+      <polygon points="860,20 900,60 880,62 872,50 860,66 848,52" fill="#f4fbff" opacity=".9"/>
+      <polygon points="0,220 140,120 260,180 380,110 520,190 640,130 820,210 980,150 1120,200 1200,170 1200,220" fill="#2e6b45"/>
+    </svg>
+  </header>
+
+  <main id="hauptinhalt">
+
+    <!-- ===================== COUNTDOWN ===================== -->
+    <section class="section" aria-labelledby="cd-h" style="padding-top:0">
+      <div class="wrap">
+        <h2 id="cd-h" class="visually-hidden" style="position:absolute;left:-9999px">Countdown</h2>
+        <div id="countdown" class="countdown countdown--soon">
+          <!-- JS füllt den Countdown; ohne JS bleibt dieser Fallback lesbar -->
+          <div class="countdown__emoji" aria-hidden="true">🎒⛰️</div>
+          <p class="countdown__label">Bald geht's los!</p>
+          <p class="countdown__hint">Sobald das Datum feststeht, zählen wir gemeinsam die Nächte bis zum Bergabenteuer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== REISE-STECKBRIEF ===================== -->
+    <section class="section" aria-labelledby="sb-h" style="padding-top:0">
+      <div class="wrap" style="text-align:center">
+        <h2 id="sb-h" style="justify-content:center">Unsere Reise auf einen Blick</h2>
+        <div id="reise-chips" class="chips" style="margin-top:1rem"></div>
+        <p class="fineprint" style="margin:1rem auto 0">Tag 1 Ankunft zum Mittagessen · Tag 2 ganztags Programm · Tag 3 Abreise am späten Vormittag.</p>
+      </div>
+    </section>
+
+    <!-- ===================== DESTINATIONEN ===================== -->
+    <section class="section" aria-labelledby="dest-h">
+      <div class="wrap">
+        <p class="eyebrow">Wohin geht's?</p>
+        <h2 id="dest-h">Unsere Reiseziele</h2>
+        <p style="max-width:60ch">Aktuell haben wir die Lenzerheide ausführlich erkundet. Weitere Ziele kommen dazu – schau immer mal wieder vorbei!</p>
+        <p class="no-js-note">Hinweis: Diese Planungsseite lädt ihre Inhalte per JavaScript. Bitte JavaScript aktivieren, um Reiseziele, Tagespläne und Aktivitäten zu sehen.</p>
+        <div id="dest-grid" class="grid grid--3" style="margin-top:1.3rem"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ANREISE ===================== -->
+    <section class="section" aria-labelledby="an-h" style="background:var(--bg-2)">
+      <div class="wrap">
+        <p class="eyebrow">Die Fahrt hin</p>
+        <h2 id="an-h">Anreise über Chur</h2>
+        <p style="max-width:60ch">Von Ellwangen führt die Route über Chur nach Landquart – ein perfekter Grund für einen Zwischenstopp, der zu jedem Reiseziel passt.</p>
+        <div id="anreise-inner" class="anreise" style="margin-top:1.2rem"></div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site" role="contentinfo">
+    <div class="wrap">
+      <p><strong>Unser Bergabenteuer</strong> · Schweiz-Urlaub 2026 · Graubünden</p>
+      <p class="fineprint">Preise und Öffnungszeiten sind Stand Recherche – vor der Buchung auf den offiziellen Seiten prüfen.</p>
+    </div>
+  </footer>
+
+  <!-- Daten zuerst, dann Logik. defer hält die Reihenfolge und blockiert das Rendering nicht. -->
+  <script src="assets/js/data.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
 </body>
 </html>
