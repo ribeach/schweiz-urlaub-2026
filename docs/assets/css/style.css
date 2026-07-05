@@ -386,6 +386,56 @@ section[id] { scroll-margin-top: 5.2rem; }
 @keyframes stampIn { 0% { transform: rotate(-12deg) scale(2.4); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotate(-12deg) scale(1); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .akt[data-stamped="true"]::before { animation: none; } }
 
+/* ---------- Karte (Planungskarte — ruhig/erwachsen, für Senioren lesbar) ---------- */
+.karte__intro { max-width: 62ch; color: var(--ink-2); }
+.karte__frame {
+  position: relative;
+  height: 480px;                          /* Fallback für Browser ohne dvh */
+  height: clamp(340px, 58dvh, 620px);
+  border-radius: var(--radius-l); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+  background: var(--surface-2);
+}
+.karte__map { position: absolute; inset: 0; }
+.karte__fallback {
+  position: absolute; inset: 0;
+  display: grid; place-content: center; justify-items: center; gap: .9rem;
+  text-align: center; padding: 1.5rem;
+  background: var(--surface-2); color: var(--ink);
+}
+.karte__fallback p { max-width: 40ch; margin: 0; }
+/* [hidden] durchsetzen — display:grid/flex würde das Attribut sonst überstimmen */
+.karte__fallback[hidden], .karte-legende[hidden] { display: none !important; }
+
+/* Legende — rein DOM/CSS, funktioniert auch ohne Kartentiles. Farbe nie allein. */
+.karte-legende { list-style: none; margin: .9rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem 1.1rem; }
+.karte-legende__item { display: inline-flex; align-items: center; gap: .4rem; font-size: .95rem; font-weight: 600; color: var(--ink); }
+.karte-legende__swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--line-2); flex: 0 0 auto; }
+.karte-legende__swatch--hotel { border-radius: 4px; }   /* Quadrat spiegelt die Hotel-Pinform */
+.karte-legende__icon { font-size: 1.05em; }
+
+/* Info-Fenster — FIXE Light-Hexwerte: der Google-InfoWindow-Ballon ist immer
+   weiss (auch im Dark Mode), Tokens würden helle Schrift auf Weiss erzeugen. */
+.karte-iw { color: #1c2a30; font-size: 1rem; line-height: 1.45; max-width: 280px; display: grid; gap: .35rem; padding: .25rem .25rem .35rem; }
+.karte-iw__name { font-family: var(--font-display); font-size: 1.12rem; font-weight: 800; margin: 0; color: #1c2a30; }
+.karte-iw__kat { justify-self: start; margin: 0; padding: .15rem .5rem; border-radius: 7px; font-size: .78rem; font-weight: 700; background: #f6f3ea; color: #46555c; border: 1px solid #e2ddce; }
+.karte-iw__ampel { margin: 0; font-size: .95rem; font-weight: 700; }
+.karte-iw__ampel--ideal { color: #1b7a43; }
+.karte-iw__ampel--gut { color: #1f74d6; }
+.karte-iw__ampel--bedingt { color: #b06a00; }
+.karte-iw__ampel--ungeeignet { color: #c0361a; }
+.karte-iw__preis { margin: 0; font-weight: 800; color: #a5321a; }
+.karte-iw__fakt { margin: 0; font-size: .95rem; color: #46555c; }
+.karte-iw__links { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .4rem; }
+.karte-iw__btn {
+  min-height: 44px; display: inline-flex; align-items: center; gap: .35rem;
+  padding: .5rem .9rem; border-radius: 999px;
+  font: 600 .95rem/1 var(--font-display);
+  background: #fff; color: #1c2a30; border: 1.5px solid #cfc9b7;
+  text-decoration: none; cursor: pointer; appearance: none; -webkit-appearance: none;
+}
+.karte-iw__btn:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
+
 /* ---------- Tagesplan ---------- */
 .plan__head { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
 .toggle { display: inline-flex; background: var(--surface-2); border: 2px solid var(--line-2); border-radius: 999px; padding: 4px; gap: 4px; }
@@ -469,6 +519,8 @@ footer.site a { font-weight: 600; }
   .stamp-btn, .progress, .btn, .toggle, .backlink, .skip, .details > summary::after { display: none !important; }
   /* Beim Drucken alle Sektionen ausser dem Tagesplan verbergen */
   main > section:not(#tagesplan) { display: none !important; }
+  /* #karte liegt in #dest-main (nicht direkt in main) — explizit ausschliessen */
+  #karte { display: none !important; }
   #tagesplan { padding: 0 !important; }
   #tagesplan .plan__head { display: none !important; }
   .days { display: block !important; }

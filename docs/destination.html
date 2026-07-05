@@ -28,6 +28,7 @@
       <a href="#steckbrief">📋 Steckbrief</a>
       <a href="#balancieren">🤸 Balancieren</a>
       <a href="#galerie">🎒 Abenteuer</a>
+      <a href="#karte">🗺️ Karte</a>
       <a href="#tagesplan">🗓️ Tagesplan</a>
       <a href="#hotels">🏨 Hotels</a>
       <a href="#kosten">💰 Kosten</a>
@@ -73,6 +74,23 @@
 
           <div id="galerie-grid" class="grid grid--2"></div>
           <p id="galerie-empty" class="no-js-note" style="display:none;margin-top:1rem">Keine Aktivitäten passen zu dieser Auswahl. Tippe auf «Alle zeigen», um den Filter zurückzusetzen.</p>
+        </div>
+      </section>
+
+      <!-- 3b. KARTE -->
+      <section id="karte" class="section" aria-labelledby="karte-h">
+        <div class="wrap">
+          <p class="eyebrow">Wo liegt was?</p>
+          <h2 id="karte-h">Karte</h2>
+          <p class="karte__intro">Alle Aktivitäten und Hotels im Überblick. Ort antippen für Eignung, Preis und Route – die Farben zeigen die Art der Aktivität.</p>
+          <div class="karte__frame">
+            <div id="karte-map" class="karte__map" role="region" aria-label="Interaktive Karte der Aktivitäten und Hotels"></div>
+            <div id="karte-fallback" class="karte__fallback">
+              <p><strong>Die interaktive Karte kann hier nicht angezeigt werden.</strong><br>Alle Orte lassen sich direkt in Google Maps öffnen:</p>
+              <a id="karte-fallback-link" class="btn btn--ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Lenzerheide">Region in Google Maps öffnen ↗</a>
+            </div>
+          </div>
+          <ul id="karte-legende" class="karte-legende" aria-label="Kartenlegende" hidden></ul>
         </div>
       </section>
 
@@ -142,7 +160,17 @@
     </div>
   </footer>
 
+  <!-- Karten-Key: config.js (committet, referrer-beschränkt) — lokal via
+       config.local.js überschrieben (document.write muss synchron VOR den
+       deferred Skripten laufen, sonst greift der Dev-Key nicht). -->
+  <script src="assets/js/config.js"></script>
+  <script>
+    if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+      document.write('<script src="assets/js/config.local.js"><\/script>');
+    }
+  </script>
   <script src="assets/js/data.js" defer></script>
   <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/map.js" defer></script>
 </body>
 </html>

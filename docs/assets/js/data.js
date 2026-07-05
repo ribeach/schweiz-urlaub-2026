@@ -10,6 +10,14 @@
                     (wird IMMER mit Text UND Symbol dargestellt, nie Farbe allein)
    Kategorien:      themenweg | balancieren | wasser | action | bike |
                     spielen | schlechtwetter | ausflug
+   Koordinaten:     koordinaten: { lat, lng } an jeder Aktivität, jedem Hotel
+                    (Hotels haben dafür ein stabiles id-Slug) und
+                    meta.anreiseStopp — Grundlage der Planungskarte (map.js).
+                    Der Churer Gleichgewichtsweg liegt bewusst doppelt vor
+                    (Aktivität + anreiseStopp, gleiche Koordinaten); map.js
+                    dedupliziert per id. Mehrere Aktivitäten teilen bewusst
+                    denselben Ort (Heidsee, Pradaschier, Sportzentrum,
+                    Talstation Rothorn) und damit identische Koordinaten.
    Preise/Zeiten:   Stand Recherche – vor der Buchung offiziell prüfen.
    ============================================================================= */
 
@@ -40,8 +48,11 @@ window.REISE = {
     // Zielunabhängiger Anreise-Tipp (liegt direkt auf der Route über Chur).
     anreiseRoute: "Ellwangen → über Chur → Landquart · ca. 3 Std. mit dem Auto",
     anreiseStopp: {
+      id: "churer-gleichgewichtsweg",     // gleiche id wie die Aktivität → Dedupe-Schlüssel für map.js
+      kategorie: "balancieren",
       name: "Churer Gleichgewichtsweg",
       icon: "🤸",
+      koordinaten: { lat: 46.875184, lng: 9.546094 },
       text: "Das Original und letzten Sommer das grosse Highlight: 450 m Waldparcours mit 19 Balancier-Hindernissen nach dem Motto «der Boden ist Lava». Gratis, jederzeit offen – und ein perfekter Zwischenstopp auf der Anreise oder Rückfahrt.",
       lage: "Fürstenwald, Chur",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Churer+Gleichgewichtsweg+F%C3%BCrstenwald+Chur",
@@ -67,6 +78,7 @@ window.REISE = {
         /* --- Schwerpunkt: Balancieren & Gleichgewichtswege (balancieren: true) --- */
         {
           id: "churer-gleichgewichtsweg",
+          koordinaten: { lat: 46.875184, lng: 9.546094 },
           name: "Churer Gleichgewichtsweg",
           kategorie: "balancieren", icon: "🤸",
           favoritKind: true, balancieren: true,
@@ -82,6 +94,7 @@ window.REISE = {
         },
         {
           id: "autschliweg",
+          koordinaten: { lat: 46.74029, lng: 9.556857 },
           name: "Autschliweg",
           kategorie: "balancieren", icon: "🐻",
           favoritKind: true, balancieren: true,
@@ -98,6 +111,7 @@ window.REISE = {
         },
         {
           id: "spielplatz-heidsee",
+          koordinaten: { lat: 46.740321, lng: 9.550652 },
           name: "Spielplatz Heidsee",
           kategorie: "spielen", icon: "🏴‍☠️",
           favoritKind: true, balancieren: true,
@@ -113,6 +127,7 @@ window.REISE = {
         },
         {
           id: "wetterwichtelweg",
+          koordinaten: { lat: 46.778603, lng: 9.541357 },
           name: "Wetterwichtelweg (Heidbüel)",
           kategorie: "themenweg", icon: "🧙",
           favoritKind: false, balancieren: true,
@@ -131,6 +146,7 @@ window.REISE = {
         /* --- Weitere Aktivitäten --- */
         {
           id: "globi-wanderweg",
+          koordinaten: { lat: 46.725161, lng: 9.546252 },
           name: "Globi-Wanderweg",
           kategorie: "themenweg", icon: "🐤",
           favoritKind: true, balancieren: false,
@@ -147,6 +163,7 @@ window.REISE = {
         },
         {
           id: "globi-live",
+          koordinaten: { lat: 46.726002, lng: 9.557748 },
           name: "Globi live & Globi Set",
           kategorie: "themenweg", icon: "🎁",
           favoritKind: false, balancieren: false,
@@ -162,6 +179,7 @@ window.REISE = {
         },
         {
           id: "sommerrodelbahn-pradaschier",
+          koordinaten: { lat: 46.778603, lng: 9.541357 },
           name: "Sommerrodelbahn Pradaschier",
           kategorie: "action", icon: "🛷",
           favoritKind: true, balancieren: false,
@@ -179,6 +197,7 @@ window.REISE = {
         },
         {
           id: "seilpark-zipline",
+          koordinaten: { lat: 46.778603, lng: 9.541357 },
           name: "Seilpark & Zipline Pradaschier",
           kategorie: "action", icon: "🧗",
           favoritKind: false, balancieren: false,
@@ -196,6 +215,7 @@ window.REISE = {
         },
         {
           id: "heidsee-lido",
+          koordinaten: { lat: 46.740321, lng: 9.550652 },
           name: "Heidsee / Lido & Wassersport",
           kategorie: "wasser", icon: "🏖️",
           favoritKind: true, balancieren: false,
@@ -212,6 +232,7 @@ window.REISE = {
         },
         {
           id: "bergbahn-rothorn",
+          koordinaten: { lat: 46.74029, lng: 9.556857 },
           name: "Bergbahn Rothorn & Scharmoin-Erlebnisland",
           kategorie: "ausflug", icon: "🚡",
           favoritKind: true, balancieren: false,
@@ -228,6 +249,7 @@ window.REISE = {
         },
         {
           id: "eichhoernchenwald",
+          koordinaten: { lat: 46.732381, lng: 9.55224 },
           name: "Eichhörnchenwald",
           kategorie: "spielen", icon: "🐿️",
           favoritKind: true, balancieren: false,
@@ -243,6 +265,7 @@ window.REISE = {
         },
         {
           id: "bike-kingdom",
+          koordinaten: { lat: 46.728938, lng: 9.554841 },
           name: "Bike Kingdom / Little Kingdom & Pumptrack",
           kategorie: "bike", icon: "🚵",
           favoritKind: true, balancieren: false,
@@ -259,6 +282,7 @@ window.REISE = {
         },
         {
           id: "minigolf-pitpat",
+          koordinaten: { lat: 46.73311, lng: 9.555966 },
           name: "Minigolf & Pit-Pat",
           kategorie: "spielen", icon: "⛳",
           favoritKind: false, balancieren: false,
@@ -275,6 +299,7 @@ window.REISE = {
         },
         {
           id: "h2lai",
+          koordinaten: { lat: 46.73311, lng: 9.555966 },
           name: "Wellnessbad H2Lai / Sportzentrum",
           kategorie: "schlechtwetter", icon: "🏊",
           favoritKind: false, balancieren: false,
@@ -290,6 +315,7 @@ window.REISE = {
         },
         {
           id: "foxtrail",
+          koordinaten: { lat: 46.740321, lng: 9.550652 },
           name: "Foxtrail (Schnitzeljagd)",
           kategorie: "themenweg", icon: "🦊",
           favoritKind: false, balancieren: false,
@@ -305,6 +331,7 @@ window.REISE = {
         },
         {
           id: "biathlon",
+          koordinaten: { lat: 46.692328, lng: 9.559355 },
           name: "Biathlon-Erlebnis (Roland Arena)",
           kategorie: "action", icon: "🎯",
           favoritKind: false, balancieren: false,
@@ -320,6 +347,7 @@ window.REISE = {
         },
         {
           id: "arosa-baerenland",
+          koordinaten: { lat: 46.786778, lng: 9.663989 },
           name: "Arosa Bärenland (Tagesausflug)",
           kategorie: "ausflug", icon: "🐻",
           favoritKind: false, balancieren: false,
@@ -336,6 +364,7 @@ window.REISE = {
         },
         {
           id: "freibad-churwalden",
+          koordinaten: { lat: 46.776477, lng: 9.544258 },
           name: "Freibad Churwalden",
           kategorie: "wasser", icon: "🌞",
           favoritKind: false, balancieren: false,
@@ -353,6 +382,8 @@ window.REISE = {
 
       hotels: [
         {
+          id: "hotel-schweizerhof",
+          koordinaten: { lat: 46.727351, lng: 9.557642 },
           name: "Hotel Schweizerhof Lenzerheide",
           sterne: 4, lage: "Dorfzentrum",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "CHF 250–450+",
@@ -361,6 +392,8 @@ window.REISE = {
           offiziellUrl: "https://www.schweizerhof-lenzerheide.ch"
         },
         {
+          id: "hotel-sunstar",
+          koordinaten: { lat: 46.728688, lng: 9.554225 },
           name: "Sunstar Hotel Lenzerheide",
           sterne: 4, lage: "zentral (~200 m Zentrum), Sportbus-Halt ~50 m",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "CHF 250–400",
@@ -369,6 +402,8 @@ window.REISE = {
           offiziellUrl: "https://lenzerheide.sunstar.ch/de"
         },
         {
+          id: "hotel-revier",
+          koordinaten: { lat: 46.740971, lng: 9.555747 },
           name: "Revier Mountain Lodge",
           sterne: 3, lage: "an Talstation Rothornbahn und am Heidsee",
           hallenbad: false, eignungKind: "gut", preisniveau: "ab ca. CHF 150–200",
@@ -377,6 +412,8 @@ window.REISE = {
           offiziellUrl: "https://lenzerheide.revierhotels.com/de"
         },
         {
+          id: "hotel-valbella",
+          koordinaten: { lat: 46.749181, lng: 9.557492 },
           name: "Valbella Resort",
           sterne: null, lage: "Valbella",
           hallenbad: false, eignungKind: "gut", preisniveau: "auf Anfrage",
@@ -385,6 +422,8 @@ window.REISE = {
           offiziellUrl: "https://www.valbellaresort.ch/de"
         },
         {
+          id: "hotel-lenzerhorn",
+          koordinaten: { lat: 46.728125, lng: 9.557543 },
           name: "Hotel Lenzerhorn",
           sterne: null, lage: "Dorf Lenzerheide",
           hallenbad: true, eignungKind: "gut", preisniveau: "auf Anfrage",
