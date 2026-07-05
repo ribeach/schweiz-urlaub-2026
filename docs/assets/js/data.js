@@ -538,6 +538,7 @@ window.REISE = {
         /* --- Schwerpunkt: Klettern & Balancieren (balancieren: true) --- */
         {
           id: "davos-madrisa-land",
+          koordinaten: { lat: 46.884438, lng: 9.875648 },
           name: "Madrisa-Land Klosters",
           kategorie: "spielen", icon: "🎪",
           favoritKind: true, balancieren: true,
@@ -554,6 +555,7 @@ window.REISE = {
         },
         {
           id: "davos-zwergenweg",
+          koordinaten: { lat: 46.862536, lng: 9.89003 },
           name: "Zwergenweg Klosters",
           kategorie: "themenweg", icon: "🧙",
           favoritKind: true, balancieren: true,
@@ -569,6 +571,7 @@ window.REISE = {
         },
         {
           id: "davos-adventure-park",
+          koordinaten: { lat: 46.810818, lng: 9.85501 },
           name: "Davos Adventure Park / Seilpark Färich",
           kategorie: "balancieren", icon: "🧗",
           favoritKind: true, balancieren: true,
@@ -586,6 +589,7 @@ window.REISE = {
         },
         {
           id: "davos-spielplatz-kurpark",
+          koordinaten: { lat: 46.798842, lng: 9.828474 },
           name: "Spielplatz Kurpark Davos",
           kategorie: "spielen", icon: "🛝",
           favoritKind: true, balancieren: true,
@@ -603,6 +607,7 @@ window.REISE = {
         /* --- Erlebnisberge & weitere Aktivitäten --- */
         {
           id: "davos-rinerhorn",
+          koordinaten: { lat: 46.745577, lng: 9.780824 },
           name: "Rinerhorn (Spielplatz & Streichelzoo)",
           kategorie: "ausflug", icon: "🐐",
           favoritKind: true, balancieren: false,
@@ -619,6 +624,7 @@ window.REISE = {
         },
         {
           id: "davos-schatzalp",
+          koordinaten: { lat: 46.797181, lng: 9.821569 },
           name: "Schatzalp: Sommerrodelbahn & Alpinum",
           kategorie: "action", icon: "🛷",
           favoritKind: true, balancieren: false,
@@ -636,6 +642,7 @@ window.REISE = {
         },
         {
           id: "davos-jakobshorn",
+          koordinaten: { lat: 46.791714, lng: 9.821854 },
           name: "Jakobshorn & Schaukäserei Clavadeleralp",
           kategorie: "ausflug", icon: "🧀",
           favoritKind: false, balancieren: false,
@@ -652,6 +659,7 @@ window.REISE = {
         },
         {
           id: "davos-davosersee",
+          koordinaten: { lat: 46.81533, lng: 9.852127 },
           name: "Davosersee: Baden, Pedalo & Eichhörnchen",
           kategorie: "wasser", icon: "🏖️",
           favoritKind: true, balancieren: false,
@@ -668,6 +676,7 @@ window.REISE = {
         },
         {
           id: "davos-eau-la-la",
+          koordinaten: { lat: 46.800793, lng: 9.830482 },
           name: "eau-là-là Erlebnisbad",
           kategorie: "schlechtwetter", icon: "🏊",
           favoritKind: false, balancieren: false,
@@ -684,6 +693,7 @@ window.REISE = {
         },
         {
           id: "davos-gwunderwald",
+          koordinaten: { lat: 46.76674, lng: 9.807365 },
           name: "GWunderwald Heidboden",
           kategorie: "themenweg", icon: "🌲",
           favoritKind: false, balancieren: false,
@@ -699,6 +709,7 @@ window.REISE = {
         },
         {
           id: "davos-family-trail",
+          koordinaten: { lat: 46.857334, lng: 9.955615 },
           name: "Family-Trail Klosters & Alp Garfiun",
           kategorie: "bike", icon: "🚲",
           favoritKind: true, balancieren: false,
@@ -715,6 +726,7 @@ window.REISE = {
         },
         {
           id: "davos-kutschenfahrt",
+          koordinaten: { lat: 46.781979, lng: 9.81437 },
           name: "Kutschenfahrt Sertig- / Dischmatal",
           kategorie: "ausflug", icon: "🐴",
           favoritKind: false, balancieren: false,
@@ -731,6 +743,7 @@ window.REISE = {
         },
         {
           id: "davos-foxtrail",
+          koordinaten: { lat: 46.797874, lng: 9.826875 },
           name: "Foxtrail Davos (Schnitzeljagd)",
           kategorie: "themenweg", icon: "🦊",
           favoritKind: false, balancieren: false,
@@ -748,6 +761,7 @@ window.REISE = {
         },
         {
           id: "davos-kirchner-museum",
+          koordinaten: { lat: 46.80017, lng: 9.826745 },
           name: "Kirchner Museum Davos",
           kategorie: "schlechtwetter", icon: "🖼️",
           favoritKind: false, balancieren: false,
@@ -764,6 +778,7 @@ window.REISE = {
         },
         {
           id: "davos-pradaschier",
+          koordinaten: { lat: 46.785385, lng: 9.532051 },
           name: "Sommerrodelbahn Pradaschier (Tagesausflug)",
           kategorie: "ausflug", icon: "🎢",
           favoritKind: true, balancieren: false,
@@ -784,6 +799,7 @@ window.REISE = {
       hotels: [
         {
           id: "davos-waldhuus",
+          koordinaten: { lat: 46.797595, lng: 9.835132 },
           name: "Hotel Waldhuus Davos",
           sterne: 4, lage: "Davos Platz, am Waldrand",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "Familienpaket ab ca. CHF 190/Nacht",
@@ -793,6 +809,7 @@ window.REISE = {
         },
         {
           id: "davos-strela",
+          koordinaten: { lat: 46.796028, lng: 9.819266 },
           name: "Hotel Strela Davos",
           sterne: 3, lage: "Davos Platz, ca. 10 Gehmin. zum Bahnhof",
           hallenbad: false, eignungKind: "gut", preisniveau: "preiswert (Familienzimmer)",
@@ -802,6 +819,7 @@ window.REISE = {
         },
         {
           id: "davos-meierhof",
+          koordinaten: { lat: 46.805968, lng: 9.837018 },
           name: "Hotel Meierhof Davos",
           sterne: 4, lage: "Davos Dorf, ca. 300 m zur Parsennbahn",
           hallenbad: true, eignungKind: "gut", preisniveau: "Sommer ca. CHF 150–350 (Orientierung)",
@@ -811,6 +829,7 @@ window.REISE = {
         },
         {
           id: "davos-mountain-plaza",
+          koordinaten: { lat: 46.793284, lng: 9.817778 },
           name: "Mountain Plaza Hotel Davos",
           sterne: null, lage: "Davos Platz",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "auf Anfrage",
@@ -820,6 +839,7 @@ window.REISE = {
         },
         {
           id: "davos-buenda",
+          koordinaten: { lat: 46.807687, lng: 9.843868 },
           name: "Hotel Bünda Davos",
           sterne: null, lage: "Davos Dorf, ruhige Lage",
           hallenbad: false, eignungKind: "gut", preisniveau: "günstig, gutes Preis-Leistungs-Verhältnis",
@@ -829,6 +849,7 @@ window.REISE = {
         },
         {
           id: "davos-hardrock",
+          koordinaten: { lat: 46.797202, lng: 9.822805 },
           name: "Hard Rock Hotel Davos",
           sterne: null, lage: "Davos Platz, zentral am See/Kongresszentrum",
           hallenbad: false, eignungKind: "gut", preisniveau: "gehoben",
@@ -838,6 +859,7 @@ window.REISE = {
         },
         {
           id: "davos-seehof",
+          koordinaten: { lat: 46.809088, lng: 9.839168 },
           name: "Hotel Seehof Davos",
           sterne: 5, lage: "Davos Dorf, direkt an der Parsennbahn",
           hallenbad: true, eignungKind: "gut", preisniveau: "5★-Luxus, höheres Segment",
@@ -943,6 +965,7 @@ window.REISE = {
         /* --- Schwerpunkt: Klettern & Balancieren (balancieren: true) --- */
         {
           id: "flims-senda-dil-dragun",
+          koordinaten: { lat: 46.818975, lng: 9.263702 },
           name: "Senda dil Dragun (Baumwipfelpfad)",
           kategorie: "themenweg", icon: "🐉",
           favoritKind: true, balancieren: true,
@@ -959,6 +982,7 @@ window.REISE = {
         },
         {
           id: "flims-hochseilpark",
+          koordinaten: { lat: 46.822921, lng: 9.276796 },
           name: "Hochseilpark Prau la Selva",
           kategorie: "balancieren", icon: "🧗",
           favoritKind: true, balancieren: true,
@@ -976,6 +1000,7 @@ window.REISE = {
         },
         {
           id: "flims-piazza",
+          koordinaten: { lat: 46.819782, lng: 9.263543 },
           name: "rocksresort Piazza (Slackline, Trampolin & Surfwave)",
           kategorie: "spielen", icon: "🤸",
           favoritKind: true, balancieren: true,
@@ -991,6 +1016,7 @@ window.REISE = {
         },
         {
           id: "flims-foppa-spielplatz",
+          koordinaten: { lat: 46.84699, lng: 9.267876 },
           name: "Foppa-Spielplatz (per Sessellift)",
           kategorie: "spielen", icon: "🎢",
           favoritKind: true, balancieren: true,
@@ -1009,6 +1035,7 @@ window.REISE = {
         /* --- Weitere Aktivitäten --- */
         {
           id: "flims-caumasee",
+          koordinaten: { lat: 46.819988, lng: 9.295913 },
           name: "Caumasee (Badesee mit Schräglift)",
           kategorie: "wasser", icon: "🏊",
           favoritKind: true, balancieren: false,
@@ -1025,6 +1052,7 @@ window.REISE = {
         },
         {
           id: "flims-laaxersee",
+          koordinaten: { lat: 46.807783, lng: 9.257015 },
           name: "Laaxersee (Ortssee mit Wasserspielplatz)",
           kategorie: "wasser", icon: "🏖️",
           favoritKind: true, balancieren: false,
@@ -1041,6 +1069,7 @@ window.REISE = {
         },
         {
           id: "flims-freestyle-academy",
+          koordinaten: { lat: 46.817978, lng: 9.265044 },
           name: "Freestyle Academy Laax (Indoor)",
           kategorie: "schlechtwetter", icon: "🛹",
           favoritKind: true, balancieren: false,
@@ -1058,6 +1087,7 @@ window.REISE = {
         },
         {
           id: "flims-kids-freestyle",
+          koordinaten: { lat: 46.833762, lng: 9.282318 },
           name: "KIDS Freestyle Academy (Flims, Stenna)",
           kategorie: "schlechtwetter", icon: "🧸",
           favoritKind: true, balancieren: false,
@@ -1073,6 +1103,7 @@ window.REISE = {
         },
         {
           id: "flims-connbaechli",
+          koordinaten: { lat: 46.825912, lng: 9.289482 },
           name: "Connbächli mit Connschiffli",
           kategorie: "themenweg", icon: "⛵",
           favoritKind: true, balancieren: false,
@@ -1088,6 +1119,7 @@ window.REISE = {
         },
         {
           id: "flims-ami-sabi",
+          koordinaten: { lat: 46.821176, lng: 9.262194 },
           name: "Ami Sabi Sommerwunderland (betreutes Kinderprogramm)",
           kategorie: "spielen", icon: "🪄",
           favoritKind: true, balancieren: false,
@@ -1103,6 +1135,7 @@ window.REISE = {
         },
         {
           id: "flims-pumptrack",
+          koordinaten: { lat: 46.835281, lng: 9.284905 },
           name: "Pumptrack Flims",
           kategorie: "bike", icon: "🚵",
           favoritKind: true, balancieren: false,
@@ -1118,6 +1151,7 @@ window.REISE = {
         },
         {
           id: "flims-minigolf",
+          koordinaten: { lat: 46.823101, lng: 9.276872 },
           name: "Minigolf Flims",
           kategorie: "spielen", icon: "⛳",
           favoritKind: false, balancieren: false,
@@ -1133,6 +1167,7 @@ window.REISE = {
         },
         {
           id: "flims-il-spir",
+          koordinaten: { lat: 46.812695, lng: 9.319794 },
           name: "Aussichtsplattform Il Spir & Rheinschlucht",
           kategorie: "ausflug", icon: "🦅",
           favoritKind: false, balancieren: false,
@@ -1148,6 +1183,7 @@ window.REISE = {
         },
         {
           id: "flims-nagens-murmeltiere",
+          koordinaten: { lat: 46.855492, lng: 9.234921 },
           name: "Murmeltiere Alp Nagens (per Bahn & Shuttle)",
           kategorie: "ausflug", icon: "🐿️",
           favoritKind: true, balancieren: false,
@@ -1165,6 +1201,7 @@ window.REISE = {
         },
         {
           id: "flims-aua-grava",
+          koordinaten: { lat: 46.810562, lng: 9.257685 },
           name: "Aua Grava (Hallenbad Laax)",
           kategorie: "schlechtwetter", icon: "🏊",
           favoritKind: false, balancieren: false,
@@ -1180,6 +1217,7 @@ window.REISE = {
         },
         {
           id: "flims-kino-stenna",
+          koordinaten: { lat: 46.833057, lng: 9.282221 },
           name: "Kino Stenna (Flims)",
           kategorie: "schlechtwetter", icon: "🎬",
           favoritKind: false, balancieren: false,
@@ -1195,6 +1233,7 @@ window.REISE = {
         },
         {
           id: "flims-rafting",
+          koordinaten: { lat: 46.774449, lng: 9.202261 },
           name: "River Rafting Rheinschlucht",
           kategorie: "action", icon: "🚣",
           favoritKind: false, balancieren: false,
@@ -1214,6 +1253,7 @@ window.REISE = {
       hotels: [
         {
           id: "flims-signinahotel",
+          koordinaten: { lat: 46.818932, lng: 9.264945 },
           name: "signinahotel",
           sterne: 4, lage: "mitten im rocksresort, direkt an Talstation/Luftseilbahn; Baumwipfelpfad 100 m",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "CHF 250–350/Nacht inkl. Frühstück",
@@ -1223,6 +1263,7 @@ window.REISE = {
         },
         {
           id: "flims-rocksresort",
+          koordinaten: { lat: 46.818962, lng: 9.264986 },
           name: "rocksresort",
           sterne: null, lage: "direkt an der Talstation Laax, am Baumwipfelpfad und an der Piazza",
           hallenbad: false, eignungKind: "sehr gut", preisniveau: "CHF 200–300+/Nacht (Apartment)",
@@ -1232,6 +1273,7 @@ window.REISE = {
         },
         {
           id: "flims-peaks-place",
+          koordinaten: { lat: 46.816806, lng: 9.267298 },
           name: "Peaks Place Apartment & Spa",
           sterne: 4, lage: "~10 Gehminuten zur Gondel Laax; Caumasee ~2,6 km",
           hallenbad: true, eignungKind: "sehr gut", preisniveau: "CHF 200–300/Nacht (Apartment für 3)",
@@ -1241,6 +1283,7 @@ window.REISE = {
         },
         {
           id: "flims-wellnesshostel3000",
+          koordinaten: { lat: 46.810647, lng: 9.257742 },
           name: "wellnessHostel3000 & Aua Grava",
           sterne: null, lage: "direkt am Laaxersee, am Eingang zum Baumwipfelpfad; ~1,5 km zur Talstation",
           hallenbad: true, eignungKind: "gut", preisniveau: "ca. CHF 130–200/Nacht (Familienzimmer)",
@@ -1250,6 +1293,7 @@ window.REISE = {
         },
         {
           id: "flims-adula",
+          koordinaten: { lat: 46.828159, lng: 9.289827 },
           name: "Hotel Adula",
           sterne: 4, lage: "Flims Waldhaus, ~1 km zur Arena-Express-Gondel, nahe Caumasee/Il Spir",
           hallenbad: true, eignungKind: "gut", preisniveau: "CHF 250–450+",

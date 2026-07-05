@@ -5,7 +5,8 @@
  *
  * Liest window.REISE aus docs/assets/js/data.js (kein ES-Modul -> via vm laden),
  * generiert die Suchqueries DIREKT aus den Daten (nicht abgetippt) und schlaegt
- * sie ueber die Google Places API (New) `places:searchText` nach.
+ * sie ueber die Google Places API (New) `places:searchText` nach. Ergebnisse
+ * werden pro id gekeyt (Aktivitaeten und Hotels haben eindeutige ids).
  *
  * Key-Trennung (hart): NICHT der committete config.js-Key (kann nur die Maps
  * JavaScript API), sondern PUBLIC_GOOGLE_MAPS_API_KEY aus ../.env, der die
@@ -15,8 +16,9 @@
  * finalen Koordinaten leben in data.js.
  *
  * Usage:
- *   node scripts/lookup-coordinates.mjs --dry-run           # nur Queries zeigen
- *   node scripts/lookup-coordinates.mjs --out <pfad.json>   # echt nachschlagen
+ *   node scripts/lookup-coordinates.mjs --dest davos-klosters --dry-run
+ *   node scripts/lookup-coordinates.mjs --dest davos-klosters --out <pfad.json>
+ *   node scripts/lookup-coordinates.mjs --out <pfad.json>   # alle "bereit"-Ziele
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -34,13 +36,16 @@ if (!API_KEY) {
 }
 
 const DRY_RUN = process.argv.includes('--dry-run');
+const destIdx = process.argv.indexOf('--dest');
+const DEST_FILTER = destIdx !== -1 ? process.argv[destIdx + 1] : null;
 const outIdx = process.argv.indexOf('--out');
 const OUT_PATH = outIdx !== -1 ? process.argv[outIdx + 1]
   : join(ROOT, 'scripts', 'coordinates-lookup-results.json');
 const DELAY_MS = 200;
 
-// Plausibilitaets-Box: Raum Lenzerheide/Chur/Churwalden/Lantsch/Arosa.
-const BOX = { latMin: 46.6, latMax: 46.9, lngMin: 9.4, lngMax: 9.7 };
+// Grosszuegige Plausibilitaets-Box fuer ganz Graubuenden (Chur/Lenzerheide/
+// Davos/Klosters/Flims/Laax/Rheinschlucht).
+const BOX = { latMin: 46.5, latMax: 47.1, lngMin: 8.9, lngMax: 10.2 };
 
 // ── window.REISE aus data.js laden (kein ES-Modul) ──────────────────────────
 function loadReise() {
@@ -51,15 +56,6 @@ function loadReise() {
   return sandbox.window.REISE;
 }
 
-// Hotels haben (noch) kein id — stabile Slugs zentral definieren.
-const HOTEL_SLUGS = {
-  'Hotel Schweizerhof Lenzerheide': 'hotel-schweizerhof',
-  'Sunstar Hotel Lenzerheide': 'sunstar-hotel',
-  'Revier Mountain Lodge': 'revier-mountain-lodge',
-  'Valbella Resort': 'valbella-resort',
-  'Hotel Lenzerhorn': 'hotel-lenzerhorn',
-};
-
 // query= aus einer Google-Maps-URL dekodieren (handverlesene, praezise Strings).
 function queryFromMapsUrl(url) {
   if (!url) return null;
@@ -68,24 +64,23 @@ function queryFromMapsUrl(url) {
   return decodeURIComponent(m[1].replace(/\+/g, ' '));
 }
 
-// ── Queries generieren ──────────────────────────────────────────────────────
+// ── Queries generieren (nur Eintraege OHNE koordinaten) ─────────────────────
 function buildQueries(REISE) {
-  const dest = REISE.destinationen.find(d => d.id === 'lenzerheide');
   const queries = [];
-
-  dest.aktivitaeten.forEach(a => {
-    const q = queryFromMapsUrl(a.mapsUrl) || `${a.name}, ${a.lage}, Schweiz`;
-    queries.push({ key: a.id, kind: 'aktivitaet', name: a.name, query: q });
-  });
-
-  dest.hotels.forEach(h => {
-    const slug = HOTEL_SLUGS[h.name];
-    if (!slug) throw new Error(`Kein Slug fuer Hotel "${h.name}"`);
-    queries.push({ key: slug, kind: 'hotel', name: h.name, query: `${h.name}, Lenzerheide, Schweiz` });
-  });
-
-  // meta.anreiseStopp == Aktivitaet churer-gleichgewichtsweg -> NICHT doppelt
-  // nachschlagen; die gleichen Koordinaten werden spaeter uebernommen.
+  REISE.destinationen
+    .filter(d => d.status === 'bereit' && (!DEST_FILTER || d.id === DEST_FILTER))
+    .forEach(dest => {
+      (dest.aktivitaeten || []).forEach(a => {
+        if (a.koordinaten || !a.id) return;
+        const q = queryFromMapsUrl(a.mapsUrl) || `${a.name}, ${a.lage}, Schweiz`;
+        queries.push({ key: a.id, dest: dest.id, kind: 'aktivitaet', name: a.name, query: q });
+      });
+      (dest.hotels || []).forEach(h => {
+        if (h.koordinaten || !h.id) return;
+        const q = queryFromMapsUrl(h.mapsUrl) || `${h.name}, ${dest.name}, Schweiz`;
+        queries.push({ key: h.id, dest: dest.id, kind: 'hotel', name: h.name, query: q });
+      });
+    });
   return queries;
 }
 
@@ -122,30 +117,31 @@ async function main() {
   const REISE = loadReise();
   const queries = buildQueries(REISE);
 
-  console.log(`📍 ${queries.length} Queries${DRY_RUN ? ' (DRY RUN)' : ''}:\n`);
-  queries.forEach((q, i) => console.log(`  [${String(i + 1).padStart(2)}] ${q.key.padEnd(28)} → "${q.query}"`));
+  console.log(`📍 ${queries.length} Queries${DEST_FILTER ? ' (Dest: ' + DEST_FILTER + ')' : ''}${DRY_RUN ? ' (DRY RUN)' : ''}:\n`);
+  queries.forEach((q, i) => console.log(`  [${String(i + 1).padStart(2)}] ${q.key.padEnd(30)} → "${q.query}"`));
   console.log('');
 
   if (DRY_RUN) { console.log('Dry run — keine API-Aufrufe.'); return; }
+  if (!queries.length) { console.log('Nichts zu tun (alle haben schon koordinaten).'); return; }
 
   const results = {};
   const outliers = [];
   let found = 0, failed = 0;
 
   for (let i = 0; i < queries.length; i++) {
-    const { key, kind, name, query } = queries[i];
+    const { key, dest, kind, query } = queries[i];
     try {
       const r = await lookupPlace(query);
       if (!r) { console.log(`  ⚠️  [${i + 1}/${queries.length}] Kein Treffer: "${query}"`); failed++; continue; }
       const ok = inBox(r.lat, r.lng);
       results[key] = {
-        kind, name, query,
+        dest, kind, query,
         placeId: r.placeId, displayName: r.displayName, googleMapsUri: r.googleMapsUri,
         lat: r.lat, lng: r.lng, inBox: ok,
       };
       const flag = ok ? '✅' : '🚩 AUSSERHALB BOX';
       console.log(`  ${flag} [${i + 1}/${queries.length}] ${key} → ${r.displayName} (${r.lat.toFixed(5)}, ${r.lng.toFixed(5)})`);
-      if (!ok) outliers.push({ key, name, displayName: r.displayName, lat: r.lat, lng: r.lng });
+      if (!ok) outliers.push({ key, displayName: r.displayName, lat: r.lat, lng: r.lng });
       found++;
     } catch (err) {
       console.log(`  ❌ [${i + 1}/${queries.length}] Fehler: "${query}" — ${err.message}`);
