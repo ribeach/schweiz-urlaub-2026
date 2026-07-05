@@ -36,7 +36,7 @@ window.REISE = {
     ablauf: [
       "Tag 1 · Ankunft zum Mittagessen",
       "Tag 2 · ganztags Programm",
-      "Tag 3 · Abreise am späten Vormittag"
+      "Tag 3 · Abreise am Nachmittag"
     ],
     gruppe: [
       {
@@ -454,10 +454,11 @@ window.REISE = {
             ]
           },
           {
-            tag: 3, titel: "Kurzprogramm & Abreise",
+            tag: 3, titel: "Vormittagsprogramm & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "Hotelnahes Kurzprogramm: Pumptrack / Spielplatz Ochsenbühl, Minigolf oder nochmals kurz an den Heidsee." },
-              { zeit: "Später Vormittag", text: "Abreise – alternativ der Churer Gleichgewichtsweg als Stopp auf der Rückfahrt." }
+              { zeit: "Vormittag", text: "Hotelnahes Programm: Pumptrack / Spielplatz Ochsenbühl, Minigolf oder nochmals an den Heidsee." },
+              { zeit: "Mittag", text: "Gemeinsames Mittagessen im Dorf." },
+              { zeit: "Nachmittag", text: "Abreise – alternativ der Churer Gleichgewichtsweg als Stopp auf der Rückfahrt." }
             ]
           }
         ],
@@ -481,7 +482,8 @@ window.REISE = {
           {
             tag: 3, titel: "Bad oder Museum & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "H2Lai oder Museum, dann Abreise." }
+              { zeit: "Vormittag", text: "H2Lai oder Museum Vaz/Obervaz." },
+              { zeit: "Nachmittag", text: "Mittagessen, dann Abreise." }
             ]
           }
         ]
@@ -892,8 +894,9 @@ window.REISE = {
           {
             tag: 3, titel: "Schatzalp & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "Schatzalp: Standseilbahn hoch (4 Min.), ein paar Fahrten auf der Sommerrodelbahn und kurzer Rundgang durchs Alpinum – gut planbar vor der Abreise." },
-              { zeit: "Später Vormittag", text: "Abreise – alternativ ein kurzer Stopp am Spielplatz Kurpark oder ein Abschnitt des Davosersee-Rundwegs." }
+              { zeit: "Vormittag", text: "Schatzalp: Standseilbahn hoch (4 Min.), ein paar Fahrten auf der Sommerrodelbahn und Rundgang durchs Alpinum." },
+              { zeit: "Mittag", text: "Einkehr auf der Schatzalp oder im Dorf." },
+              { zeit: "Nachmittag", text: "Abreise – alternativ ein kurzer Stopp am Spielplatz Kurpark oder ein Abschnitt des Davosersee-Rundwegs." }
             ]
           }
         ],
@@ -917,7 +920,8 @@ window.REISE = {
           {
             tag: 3, titel: "Bad oder Museum & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "Kurzer eau-là-là-Besuch oder Kirchner Museum, dann Abreise." }
+              { zeit: "Vormittag", text: "eau-là-là-Besuch oder Kirchner Museum." },
+              { zeit: "Nachmittag", text: "Mittagessen, dann Abreise." }
             ]
           }
         ]
@@ -1323,10 +1327,11 @@ window.REISE = {
             ]
           },
           {
-            tag: 3, titel: "Kurzprogramm & Abreise",
+            tag: 3, titel: "Vormittagsprogramm & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "Ortsnahes Kurzprogramm: Connbächli mit Connschiffli, gemütlicher Caumasee-Rundweg oder nochmals die Baumwipfelpfad-Rutsche." },
-              { zeit: "Später Vormittag", text: "Check-out und Rückfahrt." }
+              { zeit: "Vormittag", text: "Nach dem Check-out ein ortsnahes Programm: Connbächli mit Connschiffli, gemütlicher Caumasee-Rundweg oder nochmals die Baumwipfelpfad-Rutsche." },
+              { zeit: "Mittag", text: "Mittagessen im rocksresort oder im Dorf." },
+              { zeit: "Nachmittag", text: "Rückfahrt." }
             ]
           }
         ],
@@ -1350,7 +1355,8 @@ window.REISE = {
           {
             tag: 3, titel: "Indoor & Abreise",
             bloecke: [
-              { zeit: "Vormittag", text: "Nochmals Hallenbad oder KIDS Freestyle Academy, dann Check-out und Abreise." }
+              { zeit: "Vormittag", text: "Nach dem Check-out nochmals Hallenbad oder KIDS Freestyle Academy." },
+              { zeit: "Nachmittag", text: "Mittagessen, dann Abreise." }
             ]
           }
         ]
