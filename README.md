@@ -39,11 +39,22 @@ npx serve docs
 
 ## Karten & API-Keys
 
-Bevorzugt normale Google-Maps-Links (kein Key nötig). Falls eine interaktive
-Karte gewünscht ist: Der Maps-JavaScript-Key muss per **HTTP-Referrer auf
-`ribeach.github.io/*` beschränkt** sein, denn auf einer statischen Seite ist
-er im Quelltext öffentlich sichtbar. Die `.env` bleibt lokal und ist
-gitignored; Details in `.env.example`.
+Für einfache Verlinkungen genügen normale Google-Maps-Links (kein Key nötig).
+Für interaktive Karten liegt der Maps-JavaScript-Key in
+`docs/assets/js/config.js` — bewusst committet, weil er per **HTTP-Referrer
+auf `ribeach.github.io` beschränkt** und nur für die Maps JavaScript API
+freigeschaltet ist (gleicher Key wie im Schwester-Projekt
+[baltic-roadtrip](https://github.com/ribeach/baltic-roadtrip)). Zwei Folgen:
+
+- Lokale Vorschau zeigt statt der Karte einen `RefererNotAllowedMapError` —
+  erwartet; bei Bedarf `http://localhost:*` in der Cloud Console als
+  zusätzlichen Referrer erlauben.
+- Taucht der Fehler auch auf der Live-Seite auf, ist die Beschränkung
+  vermutlich auf `…/baltic-roadtrip/*` gescopet und muss auf
+  `ribeach.github.io/*` erweitert werden.
+
+Die `.env` (weiterer Maps-Key + Stitch-Key) bleibt lokal und ist gitignored;
+Details in `.env.example`.
 
 ## Hinweise
 
