@@ -100,11 +100,13 @@
         lat: h.koordinaten.lat, lng: h.koordinaten.lng
       });
     });
-    // meta.anreiseStopp nur anhängen, wenn Koordinaten vorhanden UND die id noch
-    // nicht gesammelt wurde (Lenzerheide: churer-gleichgewichtsweg ist bereits
-    // Aktivität → wird übersprungen; künftige Destinationen: eigener Marker).
+    // meta.anreiseStopp (globaler Zwischenstopp, z. B. Churer Gleichgewichtsweg)
+    // nur ergänzen, wenn die Destination ÜBERHAUPT eigene verortete Orte hat
+    // (sonst stünde ein einzelner Chur-Marker allein auf der Karte einer noch
+    // koordinatenlosen "bereit"-Destination) UND die id noch nicht vorkommt
+    // (Lenzerheide: churer-gleichgewichtsweg ist bereits Aktivität → Dedupe).
     var stopp = (window.REISE.meta || {}).anreiseStopp;
-    if (stopp && stopp.koordinaten) {
+    if (list.length && stopp && stopp.koordinaten) {
       var doppelt = list.some(function (m) { return m.id && stopp.id && m.id === stopp.id; });
       if (!doppelt) {
         list.push({
@@ -365,9 +367,16 @@
     if (!dest) return;                                                      // 4
 
     var markers = collectMarkers(dest);                                    // 5
+    // "bereit"-Destination ohne Koordinaten (z. B. neu ergänzte Ziele, deren
+    // Koordinaten noch fehlen): Karten-Abschnitt UND Sprungnav-Eintrag
+    // ausblenden. Sobald koordinaten in data.js stehen, erscheint beides
+    // automatisch. (.subnav a hat display:inline-flex -> [hidden] greift nicht,
+    // deshalb style.display.)
     if (!markers.length) {
       var section = document.getElementById("karte");
       if (section) section.hidden = true;
+      var navlink = document.querySelector('.subnav a[href="#karte"]');
+      if (navlink) navlink.style.display = "none";
       return;
     }
     applyOffsets(markers);
