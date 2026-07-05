@@ -2,6 +2,7 @@
 .env
 .env.local
 .env.*.local
+docs/assets/js/config.local.js
 
 # macOS
 .DS_Store

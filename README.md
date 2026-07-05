@@ -46,9 +46,14 @@ auf `ribeach.github.io` beschränkt** und nur für die Maps JavaScript API
 freigeschaltet ist (gleicher Key wie im Schwester-Projekt
 [baltic-roadtrip](https://github.com/ribeach/baltic-roadtrip)). Zwei Folgen:
 
-- Lokale Vorschau zeigt statt der Karte einen `RefererNotAllowedMapError` —
-  erwartet; bei Bedarf `http://localhost:*` in der Cloud Console als
-  zusätzlichen Referrer erlauben.
+- Google unterstützt `localhost` in Website-Beschränkungen grundsätzlich
+  nicht («Invalid website domain»). Für die lokale Vorschau gibt es deshalb
+  ein Zwei-Key-Muster: `scripts/make-config-local.sh` generiert aus der
+  `.env` die gitignorte `docs/assets/js/config.local.js`, die den
+  committeten Key lokal überschreibt (Einbindungs-Snippet steht als
+  Kommentar in `config.js`). Wichtig: Der Dev-Key in der `.env` darf
+  selbst **keine** Website-Beschränkung haben — nur API-Beschränkung auf
+  die Maps JavaScript API.
 - Taucht der Fehler auch auf der Live-Seite auf, ist die Beschränkung
   vermutlich auf `…/baltic-roadtrip/*` gescopet und muss auf
   `ribeach.github.io/*` erweitert werden.
